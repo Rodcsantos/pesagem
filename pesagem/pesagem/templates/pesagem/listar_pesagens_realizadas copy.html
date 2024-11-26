@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Pesagens Realizadas{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Pesagens Realizadas</h1>
+
+    <!-- Exibição da Tabela de Pesagens Realizadas -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            Lista de Pesagens Realizadas
+        </div>
+        <div class="card-body">
+            {% if registros_realizados %}
+                <!-- Tabela Responsiva -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>Placa</th>
+                                <th>Documento</th>
+                                <th>Peso Entrada</th>
+                                <th>Peso Saída</th>
+                                <th>Data Entrada</th>
+                                <th>Data Saída</th>
+                                <th>Gerar PDF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for registro in registros_realizados %}
+                                <tr>
+                                    <td>{{ registro.placa }}</td>
+                                    <td>{{ registro.numero_documento }}</td>
+                                    <td>{{ registro.peso_entrada }} kg</td>
+                                    <td>{{ registro.peso_saida }} kg</td>
+                                    <td>{{ registro.data_entrada |date:"d/m/Y H:i" }}</td>
+                                    <td>{{ registro.data_saida |date:"d/m/Y H:i" }}</td>
+                                    <td>
+                                        <a href="{% url 'pesagem:gerar_pdf' id=registro.id %}" class="btn btn-info btn-sm">
+                                            Gerar PDF
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-warning">Nenhuma pesagem realizada ainda.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

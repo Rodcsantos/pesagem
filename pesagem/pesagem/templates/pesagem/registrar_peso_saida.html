@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Peso de Saída{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Registrar Peso de Saída</h1>
+
+    <!-- Informações da pesagem de entrada -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            Informações da Pesagem de Entrada
+        </div>
+        <div class="card-body">
+            <p><strong>Placa:</strong> {{ registro.placa }}</p>
+            <p><strong>Documento:</strong> {{ registro.numero_documento }}</p>
+            <p><strong>Peso de Entrada:</strong> {{ registro.peso_entrada }} kg</p>
+            <p><strong>Data de Entrada:</strong> {{ registro.data_entrada }}</p>
+        </div>
+    </div>
+
+    <!-- Peso atual da balança -->
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-white">
+            Peso Atual da Balança
+        </div>
+        <div class="card-body text-center">
+            <p class="display-4">
+                {% if peso_atual is not None %} 
+                    {{ peso_atual }} kg 
+                {% else %} 
+                    <span class="text-danger">Não foi possível capturar o peso</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Formulário para registrar o peso de saída -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            Registrar Peso de Saída
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Campo para o Peso de Saída -->
+                <div class="form-group">
+                    <label for="peso_saida"><strong>Peso de Saída (kg):</strong></label>
+                    <input 
+                        type="number" 
+                        name="peso_saida" 
+                        id="peso_saida" 
+                        class="form-control" 
+                        step="0.01" 
+                        value="{{ peso_atual|default:'' }}" 
+                        required>
+                    <small class="form-text text-muted">
+                        Digite o peso de saída ou deixe em branco para usar o peso atual da balança.
+                    </small>
+                </div>
+
+                <!-- Campo para upload da Imagem de Saída -->
+                <div class="form-group">
+                    <label for="imagem_saida"><strong>Imagem de Saída:</strong></label>
+                    <input type="file" name="imagem_saida" id="imagem_saida" class="form-control" accept="image/*">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block mt-3">Registrar Peso de Saída</button>
+                <a href="{% url 'pesagem:listar_pesagens_pendentes' %}" class="btn btn-secondary btn-block mt-2">Voltar</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feed de vídeo da câmera para conferência -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            Feed da Câmera Hikvision
+        </div>
+        <div class="card-body text-center">
+            <img src="{% url 'pesagem:video_feed' %}" alt="Feed da Câmera Hikvision" class="img-fluid">
+        </div>
+    </div>
+</div>
+{% endblock %}

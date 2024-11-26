@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}Pesagens Realizadas{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Pesagens Realizadas</h1>
+
+    <!-- Formulário de Filtros -->
+    <div class="mb-4">
+        <form id="filterForm" class="row g-3">
+            <div class="col-md-4 col-sm-12">
+                <input type="text" id="filterPlaca" class="form-control" placeholder="Filtrar por Placa" />
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <input type="date" id="filterDataSaida" class="form-control" placeholder="Filtrar por Data de Saída" />
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <button type="button" id="filterButton" class="btn btn-primary w-100">Buscar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Exibição da Tabela de Pesagens Realizadas -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            Lista de Pesagens Realizadas
+        </div>
+        <div class="card-body">
+            {% if registros_realizados %}
+                <!-- Tabela Responsiva -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm" id="realizadasTable">
+                        <thead>
+                            <tr>
+                                <th>Placa</th>
+                                <th>Documento</th>
+                                <th>Peso Entrada</th>
+                                <th>Peso Saída</th>
+                                <th>Data Entrada</th>
+                                <th>Data Saída</th>
+                                <th>Gerar PDF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for registro in registros_realizados %}
+                                <tr>
+                                    <td class="filter-placa">{{ registro.placa }}</td>
+                                    <td>{{ registro.numero_documento }}</td>
+                                    <td>{{ registro.peso_entrada }} kg</td>
+                                    <td>{{ registro.peso_saida }} kg</td>
+                                    <td>{{ registro.data_entrada|date:"d/m/Y H:i" }}</td>
+                                    <td class="filter-data-saida">{{ registro.data_saida|date:"Y-m-d" }}</td>
+                                    <td>
+                                        <a href="{% url 'pesagem:gerar_pdf' id=registro.id %}" class="btn btn-info btn-sm">
+                                            Gerar PDF
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-warning">Nenhuma pesagem realizada ainda.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const filterButton = document.getElementById('filterButton');
+        const filterPlaca = document.getElementById('filterPlaca');
+        const filterDataSaida = document.getElementById('filterDataSaida');
+        const tableRows = document.querySelectorAll('#realizadasTable tbody tr');
+
+        // Função para filtrar a tabela
+        const filterTable = () => {
+            const placaValue = filterPlaca.value.toLowerCase();
+            const dataSaidaValue = filterDataSaida.value;
+
+            tableRows.forEach(row => {
+                const placaText = row.querySelector('.filter-placa').textContent.toLowerCase();
+                const dataSaidaText = row.querySelector('.filter-data-saida').textContent;
+
+                // Verificando se a linha deve ser mostrada ou não
+                const matchesPlaca = placaText.includes(placaValue);
+                const matchesDataSaida = !dataSaidaValue || dataSaidaText === dataSaidaValue;
+
+                // Exibe ou esconde a linha dependendo do filtro
+                row.style.display = matchesPlaca && matchesDataSaida ? '' : 'none';
+            });
+        };
+
+        // Acionar filtro ao clicar no botão "Buscar"
+        filterButton.addEventListener('click', () => {
+            filterTable();
+        });
+
+        // Acionar filtro ao pressionar Enter no campo de filtro
+        filterPlaca.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();  // Impede o envio do formulário
+                filterTable();
+            }
+        });
+
+        filterDataSaida.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();  // Impede o envio do formulário
+                filterTable();
+            }
+        });
+
+        // Desabilitar o botão de filtro quando os campos estiverem vazios
+        const toggleFilterButtonState = () => {
+            filterButton.disabled = !(filterPlaca.value || filterDataSaida.value); // Desabilita o botão se ambos os campos estiverem vazios
+        };
+
+        // Atualiza o estado do botão ao digitar ou alterar os filtros
+        filterPlaca.addEventListener('input', toggleFilterButtonState);
+        filterDataSaida.addEventListener('change', toggleFilterButtonState);
+        
+        // Inicializa o estado do botão no carregamento
+        toggleFilterButtonState();
+    });
+</script>

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Feeds de Câmeras{% endblock %}
+
+{% block content %}
+    <h1 class="mt-5">Feeds de Câmeras</h1>
+    {% for camera_url in camera_urls %}
+        <h2>Câmera {{ forloop.counter }}</h2>
+        <img src="{% url 'video_feed' %}?camera_url={{ camera_url }}" alt="Feed da Câmera" width="800">
+    {% endfor %}
+{% endblock %}

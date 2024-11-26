@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Pesagem</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+            max-width: 210mm;  /* Tamanho da folha A4 */
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            color: #4CAF50;  /* Verde profissional */
+            margin-bottom: 30px;
+        }
+
+        .header-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header-logo img {
+            max-width: 100px;
+            height: auto;
+        }
+
+        .info {
+            margin-bottom: 15px;
+            font-size: 15px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .info strong {
+            width: 200px;
+            display: inline-block;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .info span {
+            color: #555;
+        }
+
+        .images-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .image-container {
+            text-align: center;
+            width: 48%;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 250px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave nas imagens */
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        /* Garantir que a página seja A4 */
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo no cabeçalho -->
+    <div class="header-logo">
+        <img src="logo.png" alt="Empresa">  <!-- Substitua pelo caminho do logo -->
+    </div>
+
+    <h1>Ticket de Pesagem - {{ registro.placa }}</h1>
+
+    <div class="info">
+        <strong>Placa:</strong> <span>{{ registro.placa }}</span>
+    </div>
+    <div class="info">
+        <strong>Número do Documento:</strong> <span>{{ registro.numero_documento }}</span>
+    </div>
+    <div class="info">
+        <strong>Peso de Entrada:</strong> <span>{{ registro.peso_entrada }} kg</span>
+    </div>
+    <div class="info">
+        <strong>Data de Entrada:</strong> <span>{{ data_entrada_formatada }}</span>
+    </div>
+    <div class="info">
+        <strong>Peso de Saída:</strong> <span>{{ registro.peso_saida }} kg</span>
+    </div>
+    <div class="info">
+        <strong>Data de Saída:</strong> <span>{{ data_saida_formatada }}</span>
+    </div>
+    <div class="info">
+        <strong>Diferença Peso:</strong> <span>{% if peso_dif %}{{ peso_dif }} kg{% else %}Não disponível{% endif %}</span>
+    </div>
+
+    <div class="images-container">
+        {% if registro.imagem_entrada %}
+        <div class="image-container">
+            <strong>Imagem da Entrada:</strong>
+            <img src="data:image/jpeg;base64,{{ registro.imagem_entrada }}" alt="Imagem de Entrada">
+        </div>
+        {% endif %}
+
+        {% if registro.imagem_saida %}
+        <div class="image-container">
+            <strong>Imagem da Saída:</strong>
+            <img src="data:image/jpeg;base64,{{ registro.imagem_saida }}" alt="Imagem de Saída">
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        <p>Relatório gerado automaticamente pelo sistema de pesagem.</p>
+    </div>
+</body>
+</html>
