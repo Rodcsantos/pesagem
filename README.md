@@ -86,13 +86,4 @@ Câmera Hikvision: Captura de imagens em tempo real.
 Contribuição
 Contribuições são bem-vindas! Siga os passos:
 
-Fork o repositório.
-Crie um branch para suas alterações:
-bash
-Copiar código
-git checkout -b minha-feature
-Envie um Pull Request.
-perl
-Copiar código
 
-Esse texto está pronto para ser usado como o arquivo `README.md`. Basta copiá-lo e colá-lo no reposit
