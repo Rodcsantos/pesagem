@@ -1,34 +1,37 @@
 # Sistema de Registro de Pesagens
+
 Este aplicativo Django registra pesagens de veículos utilizando integração com balanças Toledo e câmeras Hikvision. Ele automatiza a captura de pesos e imagens, garantindo controle completo sobre as pesagens de entrada e saída.
 
-Funcionalidades
-Registro de Pesagem de Entrada:
+## Funcionalidades
 
-Captura automática do peso através da integração com a balança Toledo.
-Captura de imagem associada utilizando a câmera Hikvision.
-Inserção manual da placa do veículo e número do documento.
-Armazenamento do peso no banco de dados e da imagem localmente.
-Registro de Pesagem de Saída:
+- **Registro de Pesagem de Entrada**:
+  - Captura automática do peso através da integração com a balança Toledo.
+  - Captura de imagem associada utilizando a câmera Hikvision.
+  - Inserção manual da placa do veículo e número do documento.
+  - Armazenamento do peso no banco de dados e da imagem localmente.
 
-Procedimento semelhante à pesagem de entrada.
-Inserção dos mesmos dados da entrada (placa e documento).
-Geração de Ticket de Pesagem:
+- **Registro de Pesagem de Saída**:
+  - Procedimento semelhante à pesagem de entrada.
+  - Inserção dos mesmos dados da entrada (placa e documento).
 
-Consolida as informações das pesagens de entrada e saída.
-Calcula e exibe a diferença de peso.
-Permite exportar o ticket para registro ou entrega ao cliente.
-Pré-requisitos
-Django para o backend.
-Banco de dados compatível (ex.: MySQL ou PostgreSQL).
-Integração configurada com:
-Balança Toledo para captura automática de pesos.
-Câmera Hikvision para captura de imagens.
-Instalação
-Clone este repositório:
+- **Geração de Ticket de Pesagem**:
+  - Consolida as informações das pesagens de entrada e saída.
+  - Calcula e exibe a diferença de peso.
+  - Permite exportar o ticket para registro ou entrega ao cliente.
 
-bash
-Copiar código
-git clone https://github.com/seuusuario/seurepositorio.git
+## Pré-requisitos
+
+- **Django** para o backend.
+- Banco de dados compatível (ex.: MySQL ou PostgreSQL).
+- Integração configurada com:
+  - **Balança Toledo** para captura automática de pesos.
+  - **Câmera Hikvision** para captura de imagens.
+
+## Instalação
+
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/seuusuario/seurepositorio.git
 Instale as dependências do projeto:
 
 bash
@@ -89,3 +92,7 @@ bash
 Copiar código
 git checkout -b minha-feature
 Envie um Pull Request.
+perl
+Copiar código
+
+Esse texto está pronto para ser usado como o arquivo `README.md`. Basta copiá-lo e colá-lo no reposit
